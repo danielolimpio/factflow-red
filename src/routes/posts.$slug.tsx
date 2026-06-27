@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound, useRouter } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Sidebar } from "@/components/site/Sidebar";
@@ -69,7 +69,7 @@ function PostPage() {
                 <div className="grid h-10 w-10 place-items-center rounded-full bg-brand font-bold text-brand-foreground">
                   {post.author
                     .split(" ")
-                    .map((s) => s[0])
+                    .map((s: string) => s[0])
                     .slice(0, 2)
                     .join("")}
                 </div>
@@ -97,7 +97,7 @@ function PostPage() {
 
             <div className="prose-body mt-8 space-y-5 text-[17px] leading-[1.75] text-ink/90">
               <p className="text-xl font-medium leading-[1.6] text-ink">{post.excerpt}</p>
-              {post.body.map((para, i) => (
+              {post.body.map((para: string, i: number) => (
                 <p key={i}>{para}</p>
               ))}
             </div>
