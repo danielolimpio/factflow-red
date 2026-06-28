@@ -5,12 +5,10 @@ import { PostCard } from "@/components/site/PostCard";
 import { Sidebar, NewsletterBox } from "@/components/site/Sidebar";
 import {
   posts,
-  featured,
-  recent,
-  recommended,
-  highlights,
-  editorsPicks,
+  postsByCategory,
+  getCategory,
   formatDate,
+  type Post,
 } from "@/lib/posts";
 
 export const Route = createFileRoute("/")({
@@ -33,27 +31,36 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const transparencia = postsByCategory("transparencia");
+  const orcamento = postsByCategory("orcamento");
+  const checagem = postsByCategory("checagem");
+  const compliance = postsByCategory("compliance");
+  const guias = postsByCategory("guias");
+
+  const featured = posts[0];
+  const heroSide = posts.slice(1, 3);
+  const topStories = posts.slice(1, 6);
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
-      {/* HERO: featured + stories list */}
+      {/* HERO */}
       <section className="mx-auto max-w-[1280px] px-6 py-10">
         <div className="grid gap-8 lg:grid-cols-[1fr_360px]">
           <div className="grid gap-8 md:grid-cols-[1.4fr_1fr]">
             <PostCard post={featured} variant="hero" />
             <div className="grid grid-rows-2 gap-6">
-              {recent.slice(0, 2).map((p) => (
+              {heroSide.map((p) => (
                 <PostCard key={p.slug} post={p} variant="stack" />
               ))}
             </div>
           </div>
 
-          {/* Top Stories sidebar */}
           <div>
             <h3 className="section-title section-title-bar">Top Stories</h3>
             <div className="space-y-5">
-              {posts.slice(1, 6).map((p) => (
+              {topStories.map((p) => (
                 <Link
                   key={p.slug}
                   to="/posts/$slug"
@@ -64,7 +71,7 @@ function Home() {
                     <img src={p.image} alt={p.title} className="h-full w-full object-cover" />
                   </div>
                   <div className="min-w-0">
-                    <p className="cat-link">{p.category}</p>
+                    <CatLink post={p} />
                     <h4 className="mt-1 line-clamp-2 font-display text-[15px] font-bold leading-snug text-ink transition-colors group-hover:text-brand">
                       {p.title}
                     </h4>
@@ -88,83 +95,92 @@ function Home() {
               Conecte sua marca ao público que verifica os fatos.
             </p>
           </div>
-          <button className="bg-brand px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-brand-foreground transition-colors hover:bg-brand-dark">
+          <Link
+            to="/contato"
+            className="bg-brand px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-brand-foreground transition-colors hover:bg-brand-dark"
+          >
             Saiba Mais
-          </button>
+          </Link>
         </div>
       </section>
 
       {/* TRANSPARÊNCIA */}
-      <CategoryBlock
-        title="Transparência"
-        lead={posts.find((p) => p.categorySlug === "transparencia")!}
-        side={posts.filter((p) => p.categorySlug === "transparencia").slice(1, 4)}
-      />
+      {transparencia.length > 0 && (
+        <CategoryBlock slug="transparencia" lead={transparencia[0]} side={transparencia.slice(1, 4)} />
+      )}
 
-      {/* TODAY'S HOT SPOT — 3 cards row */}
-      <section className="mx-auto max-w-[1280px] px-6 pt-14">
-        <h3 className="section-title section-title-bar">Em Destaque Hoje</h3>
-        <div className="grid gap-6 md:grid-cols-3">
-          {highlights.slice(2, 5).map((p) => (
-            <PostCard key={p.slug} post={p} variant="stack" />
-          ))}
-        </div>
-      </section>
-
-      {/* Editors' Picks band */}
-      <section className="mt-16 bg-surface-alt py-14">
-        <div className="mx-auto max-w-[1280px] px-6">
-          <h3 className="section-title section-title-bar">Escolhas do Editor</h3>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {editorsPicks.map((p) => (
+      {/* ORÇAMENTO — 3 cards */}
+      {orcamento.length > 0 && (
+        <section className="mx-auto max-w-[1280px] px-6 pt-14">
+          <SectionHeader slug="orcamento" />
+          <div className="grid gap-6 md:grid-cols-3">
+            {orcamento.slice(0, 3).map((p) => (
               <PostCard key={p.slug} post={p} variant="stack" />
             ))}
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* World Top News + Sidebar */}
+      {/* GUIAS band */}
+      {guias.length > 0 && (
+        <section className="mt-16 bg-surface-alt py-14">
+          <div className="mx-auto max-w-[1280px] px-6">
+            <SectionHeader slug="guias" />
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+              {guias.slice(0, 4).map((p) => (
+                <PostCard key={p.slug} post={p} variant="stack" />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* CHECAGEM + Sidebar */}
       <section className="mx-auto max-w-[1280px] px-6 py-14">
         <div className="grid gap-10 lg:grid-cols-[1fr_320px]">
           <div>
-            <h3 className="section-title section-title-bar">Mais Lidas da Semana</h3>
-            <div className="grid gap-6 md:grid-cols-[1.3fr_1fr]">
-              <PostCard post={posts[6]} variant="hero" />
-              <div className="space-y-5">
-                {posts.slice(7, 11).map((p) => (
-                  <Link
-                    key={p.slug}
-                    to="/posts/$slug"
-                    params={{ slug: p.slug }}
-                    className="group flex items-start gap-3 border-b border-rule pb-4 last:border-0"
-                  >
-                    <div className="relative h-[68px] w-[88px] shrink-0 overflow-hidden">
-                      <img src={p.image} alt={p.title} className="h-full w-full object-cover" />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="cat-link">{p.category}</p>
-                      <h4 className="mt-1 line-clamp-2 text-[13px] font-bold leading-snug text-ink transition-colors group-hover:text-brand">
-                        {p.title}
-                      </h4>
-                    </div>
-                  </Link>
-                ))}
+            <SectionHeader slug="checagem" />
+            {checagem.length > 0 ? (
+              <div className="grid gap-6 md:grid-cols-[1.3fr_1fr]">
+                <PostCard post={checagem[0]} variant="hero" />
+                <div className="space-y-5">
+                  {checagem.slice(1, 5).concat(posts.slice(0, 4)).slice(0, 4).map((p) => (
+                    <Link
+                      key={p.slug}
+                      to="/posts/$slug"
+                      params={{ slug: p.slug }}
+                      className="group flex items-start gap-3 border-b border-rule pb-4 last:border-0"
+                    >
+                      <div className="relative h-[68px] w-[88px] shrink-0 overflow-hidden">
+                        <img src={p.image} alt={p.title} className="h-full w-full object-cover" />
+                      </div>
+                      <div className="min-w-0">
+                        <CatLink post={p} />
+                        <h4 className="mt-1 line-clamp-2 text-[13px] font-bold leading-snug text-ink transition-colors group-hover:text-brand">
+                          {p.title}
+                        </h4>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
               </div>
-            </div>
+            ) : null}
           </div>
           <Sidebar />
         </div>
       </section>
 
-      {/* Recomendados grid */}
-      <section className="mx-auto max-w-[1280px] px-6 pb-16">
-        <h3 className="section-title section-title-bar">Recomendados para Você</h3>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {recommended.slice(0, 4).map((p) => (
-            <PostCard key={p.slug} post={p} variant="grid" />
-          ))}
-        </div>
-      </section>
+      {/* COMPLIANCE grid */}
+      {compliance.length > 0 && (
+        <section className="mx-auto max-w-[1280px] px-6 pb-16">
+          <SectionHeader slug="compliance" />
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {compliance.concat(posts.filter((p) => p.categorySlug !== "compliance")).slice(0, 4).map((p) => (
+              <PostCard key={p.slug} post={p} variant="grid" />
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Newsletter band */}
       <section className="bg-surface-alt py-14">
@@ -190,18 +206,46 @@ function Home() {
   );
 }
 
+function SectionHeader({ slug }: { slug: string }) {
+  const cat = getCategory(slug)!;
+  return (
+    <div className="mb-6 flex items-end justify-between gap-4">
+      <h3 className="section-title section-title-bar mb-0">{cat.name}</h3>
+      <Link
+        to="/categoria/$slug"
+        params={{ slug: cat.slug }}
+        className="text-[11px] font-bold uppercase tracking-[0.14em] text-brand hover:text-brand-dark"
+      >
+        Ver todos →
+      </Link>
+    </div>
+  );
+}
+
+function CatLink({ post }: { post: Post }) {
+  return (
+    <Link
+      to="/categoria/$slug"
+      params={{ slug: post.categorySlug }}
+      className="cat-link"
+    >
+      {post.category}
+    </Link>
+  );
+}
+
 function CategoryBlock({
-  title,
+  slug,
   lead,
   side,
 }: {
-  title: string;
-  lead: import("@/lib/posts").Post;
-  side: import("@/lib/posts").Post[];
+  slug: string;
+  lead: Post;
+  side: Post[];
 }) {
   return (
     <section className="mx-auto max-w-[1280px] px-6 pt-14">
-      <h3 className="section-title section-title-bar">{title}</h3>
+      <SectionHeader slug={slug} />
       <div className="grid gap-8 md:grid-cols-[1.2fr_1fr]">
         <Link to="/posts/$slug" params={{ slug: lead.slug }} className="group block">
           <div className="relative aspect-[16/10] overflow-hidden">
@@ -216,7 +260,7 @@ function CategoryBlock({
             {lead.title}
           </h2>
           <p className="mt-2 text-[10px] uppercase tracking-[0.12em] text-ink-soft">
-            {lead.date} · por {lead.author}
+            {formatDate(lead.date)} · por {lead.author}
           </p>
           <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-ink-soft">
             {lead.excerpt}
@@ -237,7 +281,7 @@ function CategoryBlock({
                 <img src={p.image} alt={p.title} className="h-full w-full object-cover" />
               </div>
               <div className="min-w-0">
-                <p className="cat-link">{p.category}</p>
+                <CatLink post={p} />
                 <h4 className="mt-1.5 line-clamp-3 font-display text-[16px] font-bold leading-snug text-ink transition-colors group-hover:text-brand">
                   {p.title}
                 </h4>
