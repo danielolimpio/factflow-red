@@ -68,7 +68,7 @@ function Home() {
                       {p.title}
                     </h4>
                     <p className="mt-1 text-[10px] uppercase tracking-[0.1em] text-ink-soft">
-                      {p.date}
+                      {formatDate(p.date)}
                     </p>
                   </div>
                 </Link>
@@ -241,7 +241,7 @@ function CategoryBlock({
                   {p.title}
                 </h4>
                 <p className="mt-1.5 text-[10px] uppercase tracking-[0.1em] text-ink-soft">
-                  {p.date}
+                  {formatDate(p.date)}
                 </p>
               </div>
             </Link>

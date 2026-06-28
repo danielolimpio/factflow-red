@@ -81,7 +81,7 @@ function PostPage() {
               <span className="h-8 w-px bg-rule" />
               <span className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-ink-soft">
                 <Calendar className="h-3.5 w-3.5 text-brand" />
-                {post.date}
+                {formatDate(post.date)}
               </span>
               <span className="ml-auto flex items-center gap-2">
                 <ShareBtn icon={<Facebook className="h-3.5 w-3.5" />} />
@@ -139,7 +139,7 @@ function PostPage() {
                       {p.title}
                     </h4>
                     <p className="mt-1 text-[10px] uppercase tracking-[0.12em] text-ink-soft">
-                      {p.date}
+                      {formatDate(p.date)}
                     </p>
                   </Link>
                 ))}

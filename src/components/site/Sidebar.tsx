@@ -63,7 +63,7 @@ export function Sidebar() {
                 <h4 className="line-clamp-2 text-[13px] font-semibold leading-snug text-ink transition-colors group-hover:text-brand">
                   {p.title}
                 </h4>
-                <p className="mt-1 text-[10px] uppercase tracking-[0.1em] text-ink-soft">{p.date}</p>
+                <p className="mt-1 text-[10px] uppercase tracking-[0.1em] text-ink-soft">{formatDate(p.date)}</p>
               </div>
             </Link>
           ))}
