@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Calendar, MessageCircle } from "lucide-react";
-import type { Post } from "@/lib/posts";
+import { type Post, formatDate } from "@/lib/posts";
 
 type Variant = "hero" | "stack" | "grid" | "list" | "mini";
 
@@ -62,7 +62,7 @@ export function PostCard({ post, variant = "grid" }: { post: Post; variant?: Var
           <h4 className="line-clamp-2 font-display text-[14px] font-bold leading-[1.3] text-ink transition-colors group-hover:text-brand">
             {post.title}
           </h4>
-          <p className="mt-1.5 text-[11px] uppercase tracking-[0.1em] text-ink-soft">{post.date}</p>
+          <p className="mt-1.5 text-[11px] uppercase tracking-[0.1em] text-ink-soft">{formatDate(post.date)}</p>
         </div>
       </Link>
     );
@@ -123,7 +123,7 @@ function Meta({
     <div className={`flex items-center gap-4 text-ink-soft ${className}`}>
       <span className={`flex items-center gap-1.5 ${small ? "text-[11px]" : "text-xs"}`}>
         <Calendar className="h-3 w-3 text-brand" />
-        <span className="uppercase tracking-[0.1em]">{post.date}</span>
+        <span className="uppercase tracking-[0.1em]">{formatDate(post.date)}</span>
       </span>
       <span className={`flex items-center gap-1.5 text-brand ${small ? "text-[11px]" : "text-xs"}`}>
         <MessageCircle className="h-3 w-3" />

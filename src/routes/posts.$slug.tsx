@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Sidebar } from "@/components/site/Sidebar";
-import { getPost, posts } from "@/lib/posts";
+import { getPost, posts, formatDate } from "@/lib/posts";
 import { Calendar, ChevronRight, Facebook, Twitter, Linkedin, Link2 } from "lucide-react";
 
 export const Route = createFileRoute("/posts/$slug")({
@@ -81,7 +81,7 @@ function PostPage() {
               <span className="h-8 w-px bg-rule" />
               <span className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-ink-soft">
                 <Calendar className="h-3.5 w-3.5 text-brand" />
-                {post.date}
+                {formatDate(post.date)}
               </span>
               <span className="ml-auto flex items-center gap-2">
                 <ShareBtn icon={<Facebook className="h-3.5 w-3.5" />} />
@@ -95,12 +95,15 @@ function PostPage() {
               <img src={post.image} alt={post.title} className="w-full object-cover" />
             </div>
 
-            <div className="prose-body mt-8 space-y-5 text-[17px] leading-[1.75] text-ink/90">
-              <p className="text-xl font-medium leading-[1.6] text-ink">{post.excerpt}</p>
-              {post.body.map((para: string, i: number) => (
-                <p key={i}>{para}</p>
-              ))}
-            </div>
+            {post.excerpt && (
+              <p className="mt-8 border-l-4 border-brand bg-surface-alt px-5 py-4 font-display text-[20px] leading-[1.5] text-ink">
+                {post.excerpt}
+              </p>
+            )}
+            <div
+              className="article-body mt-8 text-[17px] leading-[1.75] text-ink/90"
+              dangerouslySetInnerHTML={{ __html: post.html }}
+            />
 
             <div className="mt-10 border-y border-rule py-5">
               <div className="flex flex-wrap items-center gap-4">
@@ -139,7 +142,7 @@ function PostPage() {
                       {p.title}
                     </h4>
                     <p className="mt-1 text-[10px] uppercase tracking-[0.12em] text-ink-soft">
-                      {p.date}
+                      {formatDate(p.date)}
                     </p>
                   </Link>
                 ))}
