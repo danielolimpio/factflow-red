@@ -81,7 +81,7 @@ function CategoryPage() {
               {lead && <PostCard post={lead} variant="hero" />}
               {rest.length > 0 && (
                 <div className="grid gap-8 sm:grid-cols-2">
-                  {rest.map((p) => (
+                  {rest.map((p: import("@/lib/posts").Post) => (
                     <PostCard key={p.slug} post={p} variant="grid" />
                   ))}
                 </div>
