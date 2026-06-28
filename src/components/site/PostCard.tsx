@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Calendar, MessageCircle } from "lucide-react";
-import type { Post } from "@/lib/posts";
+import type { Post, formatDate } from "@/lib/posts";
 
 type Variant = "hero" | "stack" | "grid" | "list" | "mini";
 

@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Sidebar } from "@/components/site/Sidebar";
-import { getPost, posts } from "@/lib/posts";
+import { getPost, posts, formatDate } from "@/lib/posts";
 import { Calendar, ChevronRight, Facebook, Twitter, Linkedin, Link2 } from "lucide-react";
 
 export const Route = createFileRoute("/posts/$slug")({

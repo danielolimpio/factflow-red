@@ -1,5 +1,5 @@
 import { PostCard } from "./PostCard";
-import { posts } from "@/lib/posts";
+import { posts, formatDate } from "@/lib/posts";
 import { Link } from "@tanstack/react-router";
 
 const categories = [

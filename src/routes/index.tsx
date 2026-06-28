@@ -9,8 +9,7 @@ import {
   recent,
   recommended,
   highlights,
-  editorsPicks,
-} from "@/lib/posts";
+  editorsPicks,, formatDate } from "@/lib/posts";
 
 export const Route = createFileRoute("/")({
   head: () => ({
