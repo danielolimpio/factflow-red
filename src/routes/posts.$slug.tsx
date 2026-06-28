@@ -95,12 +95,15 @@ function PostPage() {
               <img src={post.image} alt={post.title} className="w-full object-cover" />
             </div>
 
-            <div className="prose-body mt-8 space-y-5 text-[17px] leading-[1.75] text-ink/90">
-              <p className="text-xl font-medium leading-[1.6] text-ink">{post.excerpt}</p>
-              {post.body.map((para: string, i: number) => (
-                <p key={i}>{para}</p>
-              ))}
-            </div>
+            {post.excerpt && (
+              <p className="mt-8 border-l-4 border-brand bg-surface-alt px-5 py-4 font-display text-[20px] leading-[1.5] text-ink">
+                {post.excerpt}
+              </p>
+            )}
+            <div
+              className="article-body mt-8 text-[17px] leading-[1.75] text-ink/90"
+              dangerouslySetInnerHTML={{ __html: post.html }}
+            />
 
             <div className="mt-10 border-y border-rule py-5">
               <div className="flex flex-wrap items-center gap-4">
