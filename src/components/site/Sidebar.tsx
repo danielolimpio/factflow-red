@@ -1,14 +1,6 @@
 import { PostCard } from "./PostCard";
-import { posts, formatDate } from "@/lib/posts";
+import { posts, formatDate, CATEGORIES, postsByCategory } from "@/lib/posts";
 import { Link } from "@tanstack/react-router";
-
-const categories = [
-  { name: "Transparência", count: 14 },
-  { name: "Orçamento", count: 9 },
-  { name: "Checagem", count: 7 },
-  { name: "Compliance", count: 5 },
-  { name: "Eleitoral", count: 4 },
-];
 
 export function Sidebar() {
   return (
@@ -27,17 +19,20 @@ export function Sidebar() {
       <div>
         <h3 className="section-title section-title-bar">Categorias</h3>
         <ul className="space-y-0">
-          {categories.map((c) => (
-            <li key={c.name}>
+          {CATEGORIES.map((c) => (
+            <li key={c.slug}>
               <Link
-                to="/"
+                to="/categoria/$slug"
+                params={{ slug: c.slug }}
                 className="group flex items-center justify-between border-b border-rule py-3 text-sm text-ink transition-colors hover:text-brand"
               >
                 <span className="flex items-center gap-2">
                   <span className="text-brand">›</span>
                   {c.name}
                 </span>
-                <span className="text-xs text-ink-soft group-hover:text-brand">({c.count})</span>
+                <span className="text-xs text-ink-soft group-hover:text-brand">
+                  ({postsByCategory(c.slug).length})
+                </span>
               </Link>
             </li>
           ))}

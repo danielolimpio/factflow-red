@@ -1,4 +1,6 @@
+import { Link } from "@tanstack/react-router";
 import { Facebook, Twitter, Instagram, Youtube } from "lucide-react";
+import { CATEGORIES } from "@/lib/posts";
 
 export function Footer() {
   return (
@@ -21,14 +23,33 @@ export function Footer() {
             <a href="#" aria-label="Youtube" className="hover:text-brand"><Youtube className="h-4 w-4" /></a>
           </div>
         </div>
-        <FootCol
-          title="Links Rápidos"
-          items={["Sobre Nós", "Contato", "Publicidade", "Trabalhe Conosco", "Mapa do Site"]}
-        />
-        <FootCol
-          title="Categorias"
-          items={["Transparência", "Orçamento", "Checagem", "Compliance", "Eleitoral"]}
-        />
+        <div>
+          <FooterTitle>Links Rápidos</FooterTitle>
+          <ul className="mt-4 space-y-2.5 text-sm">
+            <FootLink to="/sobre">Sobre Nós</FootLink>
+            <FootLink to="/contato">Contato</FootLink>
+            <FootLink to="/contato">Publicidade</FootLink>
+            <FootLink to="/contato">Trabalhe Conosco</FootLink>
+            <FootLink to="/">Mapa do Site</FootLink>
+          </ul>
+        </div>
+        <div>
+          <FooterTitle>Categorias</FooterTitle>
+          <ul className="mt-4 space-y-2.5 text-sm">
+            {CATEGORIES.map((c) => (
+              <li key={c.slug}>
+                <Link
+                  to="/categoria/$slug"
+                  params={{ slug: c.slug }}
+                  className="text-ink-soft transition-colors hover:text-brand"
+                >
+                  <span className="mr-2 text-brand">›</span>
+                  {c.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
         <div>
           <FooterTitle>Newsletter</FooterTitle>
           <p className="mt-4 text-sm text-ink-soft">
@@ -68,20 +89,13 @@ function FooterTitle({ children }: { children: React.ReactNode }) {
   );
 }
 
-function FootCol({ title, items }: { title: string; items: string[] }) {
+function FootLink({ to, children }: { to: string; children: React.ReactNode }) {
   return (
-    <div>
-      <FooterTitle>{title}</FooterTitle>
-      <ul className="mt-4 space-y-2.5 text-sm">
-        {items.map((i) => (
-          <li key={i}>
-            <a href="#" className="text-ink-soft transition-colors hover:text-brand">
-              <span className="mr-2 text-brand">›</span>
-              {i}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <li>
+      <Link to={to} className="text-ink-soft transition-colors hover:text-brand">
+        <span className="mr-2 text-brand">›</span>
+        {children}
+      </Link>
+    </li>
   );
 }

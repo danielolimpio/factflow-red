@@ -1,17 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { Search, Facebook, Twitter, Instagram, Youtube } from "lucide-react";
 import { TopBar } from "./TopBar";
-
-const nav = [
-  { label: "Home", to: "/" },
-  { label: "Transparência", to: "/" },
-  { label: "Orçamento", to: "/" },
-  { label: "Checagem", to: "/" },
-  { label: "Compliance", to: "/" },
-  { label: "Guias", to: "/" },
-];
+import { CATEGORIES, posts } from "@/lib/posts";
 
 export function Header() {
+  const breaking = posts[0];
   return (
     <header className="border-b border-rule bg-background">
       <TopBar />
@@ -34,28 +27,54 @@ export function Header() {
           </div>
           <span className="h-5 w-px bg-rule" />
           <button aria-label="Buscar" className="text-ink-soft hover:text-brand">
-            <Search className="h-4.5 w-4.5" />
+            <Search className="h-4 w-4" />
           </button>
         </div>
       </div>
       <nav className="border-y border-rule bg-background">
         <div className="mx-auto flex max-w-[1280px] items-center gap-1 px-6">
-          {nav.map((item, idx) => (
+          <Link
+            to="/"
+            activeOptions={{ exact: true }}
+            activeProps={{ className: "text-brand" }}
+            className="px-4 py-4 text-[12px] font-bold uppercase tracking-[0.14em] text-ink transition-colors hover:text-brand"
+          >
+            Home
+          </Link>
+          {CATEGORIES.map((c) => (
             <Link
-              key={item.label}
-              to={item.to}
-              className={`px-4 py-4 text-[12px] font-bold uppercase tracking-[0.14em] transition-colors hover:text-brand ${
-                idx === 0 ? "text-brand" : "text-ink"
-              }`}
+              key={c.slug}
+              to="/categoria/$slug"
+              params={{ slug: c.slug }}
+              activeProps={{ className: "text-brand" }}
+              className="px-4 py-4 text-[12px] font-bold uppercase tracking-[0.14em] text-ink transition-colors hover:text-brand"
             >
-              {item.label}
+              {c.name}
             </Link>
           ))}
+          <Link
+            to="/sobre"
+            activeProps={{ className: "text-brand" }}
+            className="px-4 py-4 text-[12px] font-bold uppercase tracking-[0.14em] text-ink transition-colors hover:text-brand"
+          >
+            Sobre
+          </Link>
+          <Link
+            to="/contato"
+            activeProps={{ className: "text-brand" }}
+            className="px-4 py-4 text-[12px] font-bold uppercase tracking-[0.14em] text-ink transition-colors hover:text-brand"
+          >
+            Contato
+          </Link>
           <div className="ml-auto hidden items-center gap-2 text-[11px] uppercase tracking-[0.14em] text-ink-soft md:flex">
             <span className="cat-tag">Última hora</span>
-            <span className="truncate text-ink">
-              Como Consultar Gastos do Seu Deputado no Portal da Transparência
-            </span>
+            <Link
+              to="/posts/$slug"
+              params={{ slug: breaking.slug }}
+              className="max-w-[380px] truncate text-ink hover:text-brand"
+            >
+              {breaking.title}
+            </Link>
           </div>
         </div>
       </nav>
