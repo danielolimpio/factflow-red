@@ -30,7 +30,7 @@ export function Footer() {
             <FootLink to="/contato">Contato</FootLink>
             <FootLink to="/contato">Publicidade</FootLink>
             <FootLink to="/contato">Trabalhe Conosco</FootLink>
-            <FootLink to="/">Mapa do Site</FootLink>
+            <FootLink to="/sitemap">Mapa do Site</FootLink>
           </ul>
         </div>
         <div>
@@ -71,9 +71,9 @@ export function Footer() {
         <div className="mx-auto flex max-w-[1280px] flex-col items-center justify-between gap-2 px-6 py-4 text-xs md:flex-row">
           <p>© {new Date().getFullYear()} Fatos Políticos. Todos os direitos reservados.</p>
           <div className="flex items-center gap-4 opacity-80">
-            <a href="#" className="hover:text-brand">Termos de Uso</a>
-            <a href="#" className="hover:text-brand">Política de Privacidade</a>
-            <a href="#" className="hover:text-brand">Cookies</a>
+            <Link to="/termos-de-uso" className="hover:text-brand">Termos de Uso</Link>
+            <Link to="/politica-de-privacidade" className="hover:text-brand">Política de Privacidade</Link>
+            <Link to="/politica-de-cookies" className="hover:text-brand">Cookies</Link>
           </div>
         </div>
       </div>
