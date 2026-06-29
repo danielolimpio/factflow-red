@@ -316,7 +316,14 @@
 .article-body .badge-warn, .article-body .status-warn { background: #d97706; }
 
 /* Highlighted values */
-.article-body .keyword { background: linear-gradient(180deg, transparent 60%, color-mix(in oklab, var(--color-brand) 25%, transparent) 60%); padding: 0 .15rem; font-weight: 600; }
+.article-body .keyword {
+  background: color-mix(in oklab, var(--color-brand) 12%, transparent);
+  box-shadow: inset 0 -2px 0 var(--color-brand);
+  padding: 0 .25rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  border-radius: 2px;
+}
 .article-body .money, .article-body .money-value, .article-body .percent, .article-body .cat-value {
   font-family: var(--font-display); font-weight: 700; color: var(--color-brand);
 }
@@ -333,23 +340,78 @@
 .article-body .card:hover { transform: translateY(-2px); box-shadow: 0 10px 30px -15px rgba(0,0,0,.15); }
 .article-body .card-icon { font-size: 1.6rem; color: var(--color-brand); margin-bottom: .5rem; }
 
-/* Timeline */
-.article-body .timeline { position: relative; padding-left: 1.8rem; margin: 1.5rem 0; border-left: 2px solid var(--color-rule); }
-.article-body .timeline-item { position: relative; padding-bottom: 1.5rem; }
+/* Steps + Timeline (shared card layout — handles labels inside markers) */
+.article-body .timeline {
+  position: static;
+  padding-left: 0;
+  margin: 1.5rem 0;
+  border-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+.article-body .step,
+.article-body .timeline-item {
+  display: grid;
+  grid-template-columns: minmax(180px, 220px) 1fr;
+  gap: 0;
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-rule);
+  border-left: 4px solid var(--color-brand);
+  padding: 0;
+  margin: 0;
+  position: static;
+  overflow: hidden;
+}
+.article-body .step-num,
 .article-body .timeline-marker {
-  position: absolute; left: -2.35rem; top: .2rem; width: 14px; height: 14px;
-  border-radius: 50%; background: var(--color-brand); border: 3px solid #fff; box-shadow: 0 0 0 2px var(--color-brand);
+  position: static;
+  width: auto; height: auto;
+  border-radius: 0;
+  background: color-mix(in oklab, var(--color-brand) 8%, transparent);
+  color: var(--color-brand);
+  border: 0;
+  box-shadow: none;
+  padding: 1rem 1rem 1rem 1.1rem;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: .92rem;
+  line-height: 1.25;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  border-right: 1px solid var(--color-rule);
 }
-.article-body .timeline-content { background: var(--color-surface-alt); padding: .8rem 1rem; border-left: 3px solid var(--color-brand); }
+.article-body .step-num strong,
+.article-body .timeline-marker strong { color: var(--color-brand); font-weight: 800; }
+.article-body .step-content,
+.article-body .timeline-content {
+  background: #fff;
+  padding: 1rem 1.25rem;
+  border-left: 0;
+  color: var(--color-ink);
+}
+.article-body .step-content p,
+.article-body .timeline-content p { margin: 0; }
+.article-body .step-content p + p,
+.article-body .timeline-content p + p { margin-top: .5rem; }
+@media (max-width: 640px) {
+  .article-body .step,
+  .article-body .timeline-item { grid-template-columns: 1fr; }
+  .article-body .step-num,
+  .article-body .timeline-marker { border-right: 0; border-bottom: 1px solid var(--color-rule); }
+}
 
-/* Steps */
-.article-body .step { display: flex; gap: 1rem; padding: 1rem 0; border-bottom: 1px dashed var(--color-rule); }
-.article-body .step-num {
-  flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%;
-  background: var(--color-brand); color: #fff; font-family: var(--font-display);
-  font-weight: 700; display: grid; place-items: center;
+/* Dark CTA / box link contrast */
+.article-body .cta a,
+.article-body .box-dark a,
+.article-body [style*="background:#000"] a,
+.article-body [style*="background: #000"] a {
+  color: #ff6b6b;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
-.article-body .step-content { flex: 1; }
 
 /* FAQ */
 .article-body .faq, .article-body .faq-section { margin: 1.5rem 0; }
