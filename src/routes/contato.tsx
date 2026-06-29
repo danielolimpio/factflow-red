@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
-import { ChevronRight, Mail, MessageSquare, Megaphone, ShieldAlert, Clock, MapPin } from "lucide-react";
+import { Mail, MessageSquare, Megaphone, ShieldAlert, Clock, MapPin } from "lucide-react";
+import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 
 export const Route = createFileRoute("/contato")({
   head: () => ({
@@ -29,11 +30,7 @@ function ContactPage() {
 
       <div className="border-b border-rule bg-surface-alt">
         <div className="mx-auto max-w-[1280px] px-6 py-10">
-          <nav className="flex items-center gap-2 text-xs text-ink-soft">
-            <Link to="/" className="hover:text-brand">Home</Link>
-            <ChevronRight className="h-3 w-3 text-brand" />
-            <span className="uppercase tracking-[0.12em] text-brand">Contato</span>
-          </nav>
+          <Breadcrumbs items={[{ label: "Contato" }]} />
           <h1 className="mt-3 font-display text-4xl font-bold text-ink md:text-5xl">
             Fale com a <span className="text-brand">redação</span>.
           </h1>
