@@ -2,9 +2,9 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Sidebar } from "@/components/site/Sidebar";
+import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { PostCard } from "@/components/site/PostCard";
 import { getCategory, postsByCategory } from "@/lib/posts";
-import { ChevronRight } from "lucide-react";
 
 export const Route = createFileRoute("/categoria/$slug")({
   loader: ({ params }) => {
@@ -56,11 +56,12 @@ function CategoryPage() {
 
       <div className="border-b border-rule bg-surface-alt">
         <div className="mx-auto max-w-[1280px] px-6 py-10">
-          <nav className="flex items-center gap-2 text-xs text-ink-soft">
-            <Link to="/" className="hover:text-brand">Home</Link>
-            <ChevronRight className="h-3 w-3 text-brand" />
-            <span className="uppercase tracking-[0.12em] text-brand">{category.name}</span>
-          </nav>
+          <Breadcrumbs
+            items={[
+              { label: "Categorias" },
+              { label: category.name },
+            ]}
+          />
           <h1 className="mt-3 font-display text-4xl font-bold text-ink md:text-5xl">
             {category.name}
           </h1>

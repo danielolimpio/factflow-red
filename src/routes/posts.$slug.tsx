@@ -2,8 +2,9 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Sidebar } from "@/components/site/Sidebar";
-import { getPost, posts, formatDate } from "@/lib/posts";
-import { Calendar, ChevronRight, Facebook, Twitter, Linkedin, Link2 } from "lucide-react";
+import { Breadcrumbs } from "@/components/site/Breadcrumbs";
+import { getPost, posts, formatDate, getCategory } from "@/lib/posts";
+import { Calendar, Facebook, Twitter, Linkedin, Link2 } from "lucide-react";
 
 export const Route = createFileRoute("/posts/$slug")({
   loader: ({ params }) => {
@@ -48,12 +49,17 @@ function PostPage() {
 
       {/* Page banner */}
       <div className="border-b border-rule bg-surface-alt">
-        <div className="mx-auto max-w-[1280px] px-6 py-10">
-          <nav className="flex items-center gap-2 text-xs text-ink-soft">
-            <Link to="/" className="hover:text-brand">Home</Link>
-            <ChevronRight className="h-3 w-3 text-brand" />
-            <span className="uppercase tracking-[0.12em] text-brand">{post.category}</span>
-          </nav>
+        <div className="mx-auto max-w-[1280px] px-6 py-8">
+          <Breadcrumbs
+            items={[
+              {
+                label: post.category,
+                to: "/categoria/$slug",
+                params: { slug: getCategory(post.categorySlug)?.slug ?? post.categorySlug },
+              },
+              { label: post.title },
+            ]}
+          />
         </div>
       </div>
 
